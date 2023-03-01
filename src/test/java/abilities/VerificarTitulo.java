@@ -1,4 +1,4 @@
-package habilidades;
+package abilities;
 
 import net.serenitybdd.screenplay.Ability;
 import org.openqa.selenium.WebDriver;

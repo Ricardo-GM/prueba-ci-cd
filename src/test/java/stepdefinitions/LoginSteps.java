@@ -1,7 +1,6 @@
 package stepdefinitions;
 
 import exceptions.ExceptionHandler;
-import habilidades.VerificarTitulo;
 import tasks.autenticacion.VerificarMensajeFlash;
 import actions.Navegacion.Navegar;
 import io.cucumber.java.en.Given;
@@ -12,8 +11,6 @@ import questions.PostLoginMessage;
 import tasks.autenticacion.RealizarLogin;
 import util.Constantes;
 import util.LoginUser;
-
-import static util.Hooks.driver;
 
 
 public class LoginSteps {

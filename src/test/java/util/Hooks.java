@@ -1,7 +1,7 @@
 package util;
 
 
-import habilidades.VerificarTitulo;
+import abilities.VerificarTitulo;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
