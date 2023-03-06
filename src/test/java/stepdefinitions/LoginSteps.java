@@ -1,6 +1,9 @@
 package stepdefinitions;
 
+import actions.Base.Click;
+import actions.Base.EsperaHasta;
 import exceptions.ExceptionHandler;
+import tasks.autenticacion.CambiarVentana;
 import tasks.autenticacion.VerificarMensajeFlash;
 import actions.Navegacion.Navegar;
 import io.cucumber.java.en.Given;
@@ -9,6 +12,8 @@ import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import questions.PostLoginMessage;
 import tasks.autenticacion.RealizarLogin;
+import userinterface.NavigatorHome;
+import userinterface.SecurePage;
 import util.Constantes;
 import util.LoginUser;
 
@@ -41,9 +46,18 @@ public class LoginSteps {
     }
     @Then("{actor} visualiza un mensaje de inicio de sesion valida")
     public void visualiza_un_mensaje_de_inicio_de_sesion_valida(Actor actor) throws Exception {
+
         try {
             actor.attemptsTo(
-                    VerificarMensajeFlash.Contiene(PostLoginMessage.Text().answeredBy(actor), Constantes.MENSAJE_LOGIN_CORRECTO )
+                    EsperaHasta.Espera(SecurePage.getCardNavigator()),
+                    Click.On(SecurePage.getCardNavigator()),
+                    CambiarVentana.a(Constantes.TITULO_PAGINA_NAVIGATOR),
+                    EsperaHasta.Espera(NavigatorHome.getNombreProducto()),
+                    Click.On(NavigatorHome.getNombreProducto())
+
+
+
+
             );
         } catch (Throwable e) {
             ExceptionHandler.Error(e);
@@ -74,7 +88,6 @@ public class LoginSteps {
             ExceptionHandler.Error(e);
         }
 
-        //actor.should(seeThat("Holi", PostLoginMessage.Text()));
 
 
     }

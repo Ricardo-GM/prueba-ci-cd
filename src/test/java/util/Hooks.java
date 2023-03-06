@@ -26,34 +26,16 @@ import java.util.List;
 public class Hooks extends ConfiguredEnvironment {
     public static WebDriver driver;
 
-    /*
-    @ParameterType(".*")
-    public Actor actor(String actorName) {
-        return OnStage.theActorCalled(actorName).describedAs("Un usuario normal");
-    }
 
-    @Before
-    public void setTheStage(){
-        OnStage.setTheStage(new OnlineCast());
-    }
-    */
-
-
-
-    @ParameterType("user|admin")
+    @ParameterType("Juan")
     public Actor actor(String name) {
-
-
         return OnStage.theActorCalled(name);
-
-
     }
 
 
 
     @Before
     public void setUp() {
-
         //Obtener variables del archivo serenity.conf
         EnvironmentVariables variablesEntorno = ConfiguredEnvironment.getConfiguration().getEnvironmentVariables();
         //Url Base
@@ -62,8 +44,6 @@ public class Hooks extends ConfiguredEnvironment {
         String driverType = variablesEntorno.getProperty("environments.default.webdriver.driver");
         //Modo de cabecera
         Boolean headlessMode = Boolean.valueOf(variablesEntorno.getProperty("headless.mode"));
-
-
 
         switch (driverType) {
             case "chrome":
@@ -97,7 +77,6 @@ public class Hooks extends ConfiguredEnvironment {
 
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        driver.get(baseUrl);
 
         BrowseTheWeb browseTheWeb = BrowseTheWeb.with(driver);
 
@@ -105,17 +84,20 @@ public class Hooks extends ConfiguredEnvironment {
 
 
         OnStage.setTheStage(new OnlineCast());
-        ActorFactory.crearYRegistrarActor("user", "Usuario de prueba", userAbilities);
+        ActorFactory.crearYRegistrarActor("Juan", "Usuario de prueba", userAbilities);
 
     }
 
 
 
+    /*
     @After
     public void tearDown() {
         driver.quit();
         
     }
+
+    */
 
 
 

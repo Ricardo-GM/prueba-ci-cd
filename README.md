@@ -31,7 +31,7 @@ Este proyecto opta por utilizar las herramientas de Serenity BDD que implementan
 8. Carpeta exceptions (`src/test/java/exceptions`): Esta carpeta contiene una clase que brinda métodos para controlar las excepciones y errores que pueden aparecer en nuestro proyecto.
 9. Carpeta util (`src/test/java/util`): Esta carpeta contiene distintos tipos de clases de apoyo para nuestro proyecto, tales como constantes, enums, lógica de creación de actores y Hooks para inicializar y terminar instancias de drivers.
 10. Carpeta features (`src/test/resoruces/features`): Esta carpeta contienen los distintos archivos .feature que contienen a su vez la redacción gherkin de los distintos casos de prueba y funcionalidades a probar en nuestro proyecto. Estos archivos .feature se encuentran divididos por funcionalidad.
-11. Archivo logback-test.cml: Este archivo contiene la configuración de los mensajes por consola manejador por la dependencia de logback.
+11. Archivo logback-test.xml: Este archivo contiene la configuración de los mensajes por consola manejador por la dependencia de logback.
 12. Archivo serenity.conf: Este archivo contiene la configuración de el proyecto Serenity, donde se establecen el tipo de driver a utilizar, en que acciones se tomarán capturas de pantalla y url's base según ambiente. Actualmente está configurado para trabajar con los navegadores Chrome Y Microsoft Edge.
 
 
