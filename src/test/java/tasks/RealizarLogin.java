@@ -1,4 +1,4 @@
-package tasks.autenticacion;
+package tasks;
 
 import actions.Base.Click;
 import actions.Base.EnterText;
@@ -21,7 +21,15 @@ public class RealizarLogin implements Task {
                 EnterText.On(LoginPage.getUsernameInput(), loginUser.username),
                 EnterText.On(LoginPage.getPasswordInput(), loginUser.password),
                 Click.On(LoginPage.getLoginButton())
+        );
 
+    }
+
+    public static  Performable Con(String username, String password) {
+        return  Task.where( "{0} inicia sesion con usuario: " + username + " y password: " + password,
+                EnterText.On(LoginPage.getUsernameInput(), username),
+                EnterText.On(LoginPage.getPasswordInput(), password),
+                Click.On(LoginPage.getLoginButton())
 
         );
     }

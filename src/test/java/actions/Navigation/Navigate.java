@@ -1,12 +1,12 @@
-package actions.Navegacion;
+package actions.Navigation;
 
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.actions.Open;
 import util.Constantes;
 
-public class Navegar {
+public class Navigate {
 
-    public static Performable aLoginPage(){
+    public static Performable toLoginPage(){
         return Open.url(Constantes.PAGINA_LOGIN);
     }
 }

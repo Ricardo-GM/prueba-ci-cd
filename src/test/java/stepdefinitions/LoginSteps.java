@@ -1,25 +1,37 @@
 package stepdefinitions;
 
+import actions.Base.SelectValue;
 import exceptions.ExceptionHandler;
-import tasks.autenticacion.VerificarMensajeFlash;
-import actions.Navegacion.Navegar;
+import io.cucumber.java.en.And;
+import tasks.CargarArchivo;
+import tasks.VerificarMensajeFlash;
+import actions.Navigation.Navigate;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
 import questions.PostLoginMessage;
-import tasks.autenticacion.RealizarLogin;
+import tasks.RealizarLogin;
+import userinterface.LoginPage;
 import util.Constantes;
 import util.LoginUser;
+import util.Usuario;
+
+
+import java.util.List;
 
 
 public class LoginSteps {
 
-    @Given("{actor} se encuentra en la pagina de login")
-    public void se_encuentra_en_la_pagina_de_login(Actor actor) throws Exception {
+    //List<Usuario> listaUsuarios = new ArrayList<>();
+
+    @Given("{actor} carga de manera correcta el archivo CSV")
+    public void carga_de_manera_correcta_el_archivo_CSV(Actor actor) throws Exception {
         try {
             actor.attemptsTo(
-                    Navegar.aLoginPage()
+                    CargarArchivo.conNombre("src/test/resources/data/prueba.csv")
+
+
             );
         }catch (Throwable e) {
             ExceptionHandler.Error(e);
@@ -27,16 +39,42 @@ public class LoginSteps {
 
     }
 
-    @When("{actor} inicia sesion con credenciales validas")
-    public void inicia_sesion_con_credenciales_validas(Actor actor) throws Exception{
+    @And("{actor} se encuentra en la pagina de login")
+    public void se_encuentra_en_la_pagina_de_login(Actor actor) throws Exception {
         try {
             actor.attemptsTo(
-                    RealizarLogin.Como(LoginUser.VALID_USER)
+                    Navigate.toLoginPage()
             );
-        } catch (Throwable e) {
+        }catch (Throwable e) {
             ExceptionHandler.Error(e);
         }
 
+    }
+
+
+
+    @When("{actor} inicia sesion con credenciales del usuario {string}")
+    public void inicia_sesion_con_credenciales_del_usuario(Actor actor, String tipoUsuario) throws Exception{
+
+        try {
+            List<Usuario> usuarios = actor.recall("usuarios");
+
+            for(Usuario usuario : usuarios) {
+                if(usuario.getTipoUsuario().equals(tipoUsuario)) {
+                    String username = usuario.getUsername();
+                    String password = usuario.getPassword();
+                    actor.attemptsTo(
+
+                            RealizarLogin.Con(username, password)
+                    );
+                }
+            }
+
+
+
+        } catch (Throwable e) {
+            ExceptionHandler.Error(e);
+        }
 
     }
     @Then("{actor} visualiza un mensaje de inicio de sesion valida")
@@ -66,7 +104,6 @@ public class LoginSteps {
 
         try {
             actor.attemptsTo(
-                    //Ensure.that(PostLoginMessage.Text()).contains(Constantes.MENSAJE_LOGIN_INCORRECTO),
                     VerificarMensajeFlash.Contiene(PostLoginMessage.Text().answeredBy(actor), Constantes.MENSAJE_LOGIN_INCORRECTO)
 
             );
@@ -74,12 +111,32 @@ public class LoginSteps {
             ExceptionHandler.Error(e);
         }
 
-        //actor.should(seeThat("Holi", PostLoginMessage.Text()));
-
 
     }
 
 
+    @When("{actor} intenta iniciar sesion con credencial validas")
+    public void userIntentaIniciarSesionConCredencialValidas(Actor actor) throws Exception {
 
+        try {
+            actor.attemptsTo(
+                    RealizarLogin.Como(LoginUser.VALID_USER)
+            );
+        }catch (Throwable e) {
+            ExceptionHandler.Error(e);
+        }
 
+    }
+
+    @Then("{actor} visualiza el {string} correspondiente al tipo de usuario")
+    public void userVisualizaElMensajeCorrespondienteAlTipoDeUsuario(Actor actor, String mensaje) throws Exception {
+
+        try {
+            actor.attemptsTo(
+                    VerificarMensajeFlash.Contiene(PostLoginMessage.Text().answeredBy(actor), mensaje)
+            );
+        }catch (Throwable e) {
+            ExceptionHandler.Error(e);
+        }
+    }
 }

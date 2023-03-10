@@ -4,9 +4,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        plugin = {"pretty"},
+        plugin ={"json:target/build/cucumber.json"},
+        stepNotifications = true,
         features = "src/test/resources/features",
-        tags = "@Login"
+        tags = "@ValidLogin"
 )
 
 

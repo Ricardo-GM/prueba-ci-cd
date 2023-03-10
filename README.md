@@ -16,10 +16,33 @@ Este es un proyecto de Automatización Web Trabajado con Serenity BDD 3.4.2 e im
 * [Selenium WebDriver](https://www.selenium.dev/) como framework de automatización web.
 * [Hamcrest](https://hamcrest.org/) como librería para controlar assertions.
 * [Logback](https://logback.qos.ch/) como librería para control de mensajes por consola.
-* [Cucumber BDD]()
-* [Serenity BDD](https://serenity-bdd.github.io/) como herramientas para de pruebas basado en BDD (Behavior-Driven Development), así como herramienta de reportería. Esta herramienta implementa a Selenium. Actualmente se utiliza la versión 3.4.2.
+* [Cucumber BDD](https://cucumber.io/) como herramienta para implementar Gherkin y BDD.
+* [Serenity BDD](https://serenity-bdd.github.io/) como herramienta para de pruebas basado en BDD (Behavior-Driven Development), así como herramienta de reportería. Esta herramienta implementa a Selenium. Actualmente se utiliza la versión 3.4.2.
 
-### ⚡️Estrategia de Automatización
+## 📃 Estructura del Proyecto:
+
+    .src
+     ├── main                   
+     ├── test
+        ├── java                        
+            ├── abilites                    # Source files (alternatively `lib` or `app`)
+            ├── actions                     # Automated tests (alternatively `spec` or `tests`)
+            ├── assertions                  # Carpeta que contiene la clase que maneja y controla las assertions
+            ├── exceptions                  # Carpeta que contiene la clase que maneja y controla las exceptions y errores
+            ├── questions                   # Carpeta que contiene las questions utilizadas en el proyecto
+            ├── stepdefinitions             # Carpeta que contiene los step definitions utilizados en el proyecto
+            ├── tasks                       # Carpeta que contiene las tasks utilizadas en el proyecto
+            ├── userinterface               # Carpeta que contiene los localizadores web
+            ├── util                        # Carpeta de utilitarios diversos (Constantes, modelos, Hooks, Lógica de actores)
+            └── CucumberTestSuite.java      # Punto de inicio de ejecución de proyecto
+        └── resources
+            ├── data                        # Archivos CSV y otros usados como data de entrada
+            ├── features                    # Archivos. feature
+            ├── logback-text.xml            # Archivo de configuración de los mensajes por consola
+            └── serenity.conf               # Archivo de configuración de Serenity
+
+
+### 🔬 ️Detalle de Carpetas y archivos
 Este proyecto opta por utilizar las herramientas de Serenity BDD que implementan el patrón de diseño ScreenPlay, por lo que existen carpetas para los componentes que se utilizan en este patrón, además de las carpetas correspondientes a la implementación de Cucumber:
 1. Carpeta actions (`src/test/java/actions`): Esta carpeta contiene las distintas interacciones de bajo nivel que puede realizar un usuario (actor) sobre la web. Estas acciones se encuentran divididas por funcionalidad.
 2. Carpeta tasks (`src/test/java/tasks`): Esta carpeta contiene las distintas tareas que puede realizar un usuario (actor) dentro del proyecto. Estas tareas se encuentran divididas por funcionalidad.
@@ -35,13 +58,72 @@ Este proyecto opta por utilizar las herramientas de Serenity BDD que implementan
 12. Archivo serenity.conf: Este archivo contiene la configuración de el proyecto Serenity, donde se establecen el tipo de driver a utilizar, en que acciones se tomarán capturas de pantalla y url's base según ambiente. Actualmente está configurado para trabajar con los navegadores Chrome Y Microsoft Edge.
 
 
+## 🔰 Como empezar:
+En este tópico se detallaran los pasos que se necesitan realizar en caso se requiera añadir una nueva funcionalidad o casos de prueba:
+1. Crear un archivo .feature que contenga los pasos de nuestros casos de prueba.
+2. Crear un archivo en la carpeta stepdefinitions que implementen los pasos creados en el archivo .feature.
+3. Cada tiene que tener la siguiente estructura:
+```java
+    @Given("{actor} carga de manera correcta el archivo CSV")
+    public void carga_de_manera_correcta_el_archivo_CSV(Actor actor) throws Exception {
+            //Bloque try-catch para el manejo de errores u excepciones
+            try {
+            actor.attemptsTo(
+            //Código a realizar
+            );
+            
+            }catch (Throwable e) {
+            ExceptionHandler.Error(e);
+            }
+    }
+```
+4. Dentro de cada paso se podrán utilizar tasks u actions.
+5. Las clases actions deben seguir la siguiente estructura:
+```java
+public class Click {
+    public static Performable On(By locator) {
+        return net.serenitybdd.screenplay.actions.Click.on(locator);
+    }
+}
+```
+6. Las clases tasks deben seguir la siguiente estructura:
+```java
+public class RealizarLogin implements Task {
+
+    @Override
+    public <T extends Actor> void performAs(T t) {
+    }
+    
+    public static Performable Como(LoginUser loginUser){
+        return Task.where("{0} inicia sesion como " + loginUser,
+                EnterText.On(LoginPage.getUsernameInput(), loginUser.username),
+                EnterText.On(LoginPage.getPasswordInput(), loginUser.password),
+                Click.On(LoginPage.getLoginButton())
+        );
+    }
+}
+```
+
+7. Los elementos web con los que se deberán interactuar deben encontrarse en la carpeta userinterface bajo la siguiente estructura:
+```java
+public class SecurePage extends PageObject {
+
+    private static By flashMessage = By.id("flash");
+
+    public static By getFlashMessage() {
+        return flashMessage;
+    }
+}
+```
+
+
 ## 🛠️ Ejecutar el proyecto:
 
 1. Ejecutar el comando `mvn compile` en la ruta del proyecto.
 2. Ejecutar el comando `mvn clean verify` en la ruta del proyecto.
 3. El proyecto se ejecutará de manera automática.
 
-## ☎ Reportería
+## 📊 Reportería
 
 * El comando `mvn clean verify` generará un link html donde se podrá visualizar el reporte una vez finalizada la ejecución de las pruebas.
 * Los datos que componen el reporte se podrán encontrar en la ruta `target/site/serenity`.

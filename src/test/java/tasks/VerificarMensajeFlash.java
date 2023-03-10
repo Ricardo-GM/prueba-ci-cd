@@ -1,4 +1,4 @@
-package tasks.autenticacion;
+package tasks;
 
 import assertions.AssertionsHandler;
 import net.serenitybdd.screenplay.Actor;
