@@ -4,20 +4,14 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- main
+- master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'MyFeed'
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'compile'
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'clean verify'
+- script: 'mvn compile'
+  displayName: 'Compile code'
+  
+- script: 'mvn clean verify'
+  displayName: 'Run tests'
