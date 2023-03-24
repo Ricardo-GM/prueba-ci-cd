@@ -20,4 +20,4 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'clean verify'
+    goals: 'maven clean verify'
