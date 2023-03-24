@@ -4,23 +4,6 @@ stages:
     jobs:
       - job:
         displayName: 'JOB pruebas funcionales'
-        workspace:
-          clean: all  # what to clean up before the job runs - outputs | resources | all
-        strategy:
-          matrix:
-            #            'Ubuntu 20.04 Chrome':
-            #              vmImage: 'ubuntu-20.04'
-            #              webDriver: 'chrome'
-            'macOS X Catalina 10.15 Safari':
-              vmImage: 'macOS-12'
-              webDriver: 'safari'
-          #            'windows-2022 Firefox':
-          #              vmImage: 'windows-2022'
-          #              webDriver: 'firefox'
-          #            'Ubuntu 20.04 Firefox':
-          #              vmImage: 'ubuntu-20.04'
-          #              webDriver: 'firefox'
-          maxParallel: 1 # maximum number simultaneous matrix legs to run
         pool: # agent pool
           vmImage: $(vmImage)
         steps:

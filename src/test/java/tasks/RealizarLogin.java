@@ -5,6 +5,7 @@ import actions.Base.EnterText;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Performable;
 import net.serenitybdd.screenplay.Task;
+import org.openqa.selenium.Keys;
 import userinterface.LoginPage;
 import util.LoginUser;
 
@@ -28,8 +29,8 @@ public class RealizarLogin implements Task {
     public static  Performable Con(String username, String password) {
         return  Task.where( "{0} inicia sesion con usuario: " + username + " y password: " + password,
                 EnterText.On(LoginPage.getUsernameInput(), username),
-                EnterText.On(LoginPage.getPasswordInput(), password),
-                Click.On(LoginPage.getLoginButton())
+                EnterText.On(LoginPage.getPasswordInput(), password + String.valueOf(Keys.ENTER))
+                //Click.On(LoginPage.getLoginButton())
 
         );
     }
